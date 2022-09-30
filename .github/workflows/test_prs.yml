@@ -1,4 +1,4 @@
-name: CI Pytest
+name: Test action
 on:
   push:
     branches: [ master ]
