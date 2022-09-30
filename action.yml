@@ -1,10 +1,20 @@
 name: 'Cache poetry and venv'
 description: 'Cache poetry and venv'
+inputs:
+  poetry-version:
+    description: "Version of poetry, used for cache hash."
+    required: true
+    default: '0.0.0'
+  cache-version:
+    description: "Cache version, used for cache key. If you change this, automatically invalidates the cache."
+    required: true
+    default: '0.0.0'
+
 runs:
   using: "composite"
   steps:
     # Override version numbers to avoid invalidating cache on version bump
-    - name: Linux, Overwrite version number from pyproject.toml, so it doesn't invalidate cache
+    - name: Linux, Overwrite version number from pyproject.toml, so it doesn't invalidate cache.
       id: remove-version-from-toml-macos
       if: matrix.os == 'ubuntu-latest'
       shell: bash
@@ -13,7 +23,7 @@ runs:
         sed -i "s/version = \".*\"/version = \"0.0.0\"/g" pyproject.toml
         cat pyproject.toml
 
-    - name: Mac, Overwrite version number from pyproject.toml, so it doesn't invalidate cache
+    - name: Mac, Overwrite version number from pyproject.toml, so it doesn't invalidate cache.
       id: remove-version-from-toml-ubuntu
       if: matrix.os == 'macos-latest'
       shell: bash
@@ -21,7 +31,7 @@ runs:
         sed -i '' "s/version = \".*\"/version = \"0.0.0\"/g" pyproject.toml
         cat pyproject.toml
     
-    - name: Windows, Overwrite version number from pyproject.toml, so it doesn't invalidate cache
+    - name: Windows, Overwrite version number from pyproject.toml, so it doesn't invalidate cache.
       id: remove-version-from-toml-windows
       if: matrix.os == 'windows-latest'
       shell: powershell
@@ -36,7 +46,7 @@ runs:
         path: |
           .venv
         # Cache the complete venv dir for a given os, python version, pyproject.toml
-        key: venv-${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('.github/workflows/cache_version') }}
+        key: ${{ runner.os }}-python-${{ matrix.python-version }}-poetry-${{ inputs.poetry_version }}-toml-${{ hashFiles('pyproject.toml') }}-$cache-{{ inputs.cache-version }}
 
     - name: Mac, Linux, Load cached .local (Poetry install location)
       id: cached-poetry-unix
@@ -46,7 +56,7 @@ runs:
         path: |
           ~/.local/
         # Cache the complete venv dir for a given os, python version, pyproject.toml
-        key: venv-${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('.github/workflows/cache_version') }}--${{ hashFiles('.github/workflows/main_test_and_release.yml') }}
+        key: ${{ runner.os }}-python-${{ matrix.python-version }}-poetry-${{ inputs.poetry_version }}-toml-${{ hashFiles('pyproject.toml') }}-$cache-{{ inputs.cache-version }}
 
     - name: Windows, Load cached Poetry install (Poetry install location)
       id: cached-poetry-windows
@@ -56,4 +66,4 @@ runs:
         path: |
           %APPDATA%\pypoetry
         # Cache the complete venv dir for a given os, python version, pyproject.toml
-        key: venv-${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('.github/workflows/cache_version') }}--${{ hashFiles('.github/workflows/main_test_and_release.yml') }}
+        key: ${{ runner.os }}-python-${{ matrix.python-version }}-poetry-${{ inputs.poetry_version }}-toml-${{ hashFiles('pyproject.toml') }}-cache-${{ inputs.cache-version }}
