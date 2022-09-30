@@ -54,7 +54,7 @@ runs:
         path: |
           .venv
         # Cache the complete venv dir for a given os, python version, pyproject.toml
-        key: ${{ runner.os }}-python-${{ matrix.python-version }}-poetry-${{ inputs.poetry_version }}-toml-${{ hashFiles('pyproject.toml') }}-$cache-{{ inputs.cache-version }}
+        key: ${{ runner.os }}-python-${{ matrix.python-version }}-poetry-${{ inputs.poetry-version }}-toml-${{ hashFiles('pyproject.toml') }}-$cache-{{ inputs.cache-version }}
 
     - name: Mac, Linux, Load cached .local (Poetry install location)
       id: cached-poetry-unix
@@ -64,7 +64,7 @@ runs:
         path: |
           ~/.local/
         # Cache the complete venv dir for a given os, python version, pyproject.toml
-        key: ${{ runner.os }}-python-${{ matrix.python-version }}-poetry-${{ inputs.poetry_version }}-toml-${{ hashFiles('pyproject.toml') }}-$cache-{{ inputs.cache-version }}
+        key: ${{ runner.os }}-python-${{ matrix.python-version }}-poetry-${{ inputs.poetry-version }}-toml-${{ hashFiles('pyproject.toml') }}-$cache-{{ inputs.cache-version }}
 
     - name: Windows, Load cached Poetry install (Poetry install location)
       id: cached-poetry-windows
@@ -74,4 +74,4 @@ runs:
         path: |
           %APPDATA%\pypoetry
         # Cache the complete venv dir for a given os, python version, pyproject.toml
-        key: ${{ runner.os }}-python-${{ matrix.python-version }}-poetry-${{ inputs.poetry_version }}-toml-${{ hashFiles('pyproject.toml') }}-cache-${{ inputs.cache-version }}
+        key: ${{ runner.os }}-python-${{ matrix.python-version }}-poetry-${{ inputs.poetry-version }}-toml-${{ hashFiles('pyproject.toml') }}-cache-${{ inputs.cache-version }}
