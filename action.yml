@@ -11,6 +11,8 @@ inputs:
     default: '0.0.0'
   python-version:
     description: "Python version, used for cache key. If you change this, automatically invalidates the cache."
+    required: true
+    default: '0.0.0'
 outputs:
   venv-cache-hit:
     description: "Whether there was a cache hit on .venv"
