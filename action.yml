@@ -9,6 +9,14 @@ inputs:
     description: "Cache version, used for cache key. If you change this, automatically invalidates the cache."
     required: true
     default: '0.0.0'
+outputs:
+  venv-cache-hit:
+    description: "Whether there was a cache hit on .venv"
+    value: ${{ steps.cached-poetry-dependencies.outputs.cache-hit }}
+  poetry-cache-hit:
+    description: "Whether there was a cache hit on the poetry installation"
+    value: (${{ steps.cached-poetry-unix.outputs.cache-hit }} || ${{ steps.cached-poetry-windows.outputs.cache-hit }}) 
+
 
 runs:
   using: "composite"
