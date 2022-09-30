@@ -26,6 +26,11 @@ runs:
   using: "composite"
   steps:
     # Override version numbers to avoid invalidating cache on version bump
+    - name: Override version number from pyproject.toml
+      shell: bash
+      run: |
+        echo "🚧 Overriding version number from pyproject.toml so the project's version doesn't invalidate cache "
+      
     - name: Linux, Overwrite version number from pyproject.toml, so it doesn't invalidate cache.
       id: remove-version-from-toml-macos
       if: (runner.os == 'ubuntu-latest' || runner.os == 'windows-latest')
@@ -44,6 +49,11 @@ runs:
         cat pyproject.toml
 
     - name: Load cached venv
+      shell: bash
+      run: |
+        echo "🚧 Loading cached venv"
+
+    - name: Load cached venv
       id: cached-poetry-dependencies
       uses: actions/cache@v2.1.6
       with:
@@ -51,6 +61,11 @@ runs:
           .venv
         # Cache the complete venv dir for a given os, python version, pyproject.toml
         key: ${{ runner.os }}-python-${{ inputs.python-version }}-poetry-${{ inputs.poetry-version }}-toml-${{ hashFiles('pyproject.toml') }}-cache-${{ inputs.cache-version }}
+
+    - name: Load cached poetry install
+      shell: bash
+      run: |
+        echo "🚧 Loading cached poetry install"
 
     - name: Mac, Linux, Load cached .local (Poetry install location)
       id: cached-poetry-unix
@@ -71,3 +86,8 @@ runs:
           %APPDATA%\pypoetry
         # Cache the complete venv dir for a given os, python version, pyproject.toml
         key: ${{ runner.os }}-python-${{ inputs.python-version }}-poetry-${{ inputs.poetry-version }}-toml-${{ hashFiles('pyproject.toml') }}-cache-${{ inputs.cache-version }}
+    
+    - name: Load cached venv
+      shell: bash
+      run: |
+        echo "✅ Finished cache processing"
