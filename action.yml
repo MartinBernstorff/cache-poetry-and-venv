@@ -7,6 +7,7 @@ runs:
     - name: Linux, Overwrite version number from pyproject.toml, so it doesn't invalidate cache
       id: remove-version-from-toml-macos
       if: matrix.os == 'ubuntu-latest'
+      shell: bash
       run: |
         sed -i "s/version = \".*\"/version = \"0.0.0\"/g" pyproject.toml
         cat pyproject.toml
@@ -14,6 +15,7 @@ runs:
     - name: Mac, Overwrite version number from pyproject.toml, so it doesn't invalidate cache
       id: remove-version-from-toml-ubuntu
       if: matrix.os == 'macos-latest'
+      shell: bash
       run: |
         sed -i '' "s/version = \".*\"/version = \"0.0.0\"/g" pyproject.toml
         cat pyproject.toml
@@ -21,6 +23,7 @@ runs:
     - name: Windows, Overwrite version number from pyproject.toml, so it doesn't invalidate cache
       id: remove-version-from-toml-windows
       if: matrix.os == 'windows-latest'
+      shell: powershell
       run: |
         Get-Content pyproject.toml | Where { $_ -notmatch "^version" } | Set-Content pyproject.toml
 
@@ -35,7 +38,7 @@ runs:
         key: venv-${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('.github/workflows/cache_version') }}
 
     - name: Mac, Linux, Load cached .local (Poetry install location)
-      id: cached-poetry
+      id: cached-poetry-unix
       if: (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest')
       uses: actions/cache@v2.1.6
       with:
@@ -45,8 +48,8 @@ runs:
         key: venv-${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('.github/workflows/cache_version') }}--${{ hashFiles('.github/workflows/main_test_and_release.yml') }}
 
     - name: Windows, Load cached Poetry install (Poetry install location)
-      id: cached-poetry
-      if: (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest')
+      id: cached-poetry-windows
+      if: matrix.os == 'windows-latest'
       uses: actions/cache@v2.1.6
       with:
         path: |
