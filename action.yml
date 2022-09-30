@@ -27,7 +27,7 @@ runs:
       shell: powershell
       run: |
         Get-Content -path "pyproject.toml" | % { $_ -Replace '(version = \".*\"', 'version = \"0.0.0\"' } |  Out-File "pyproject.toml"
-        Get-Content -path pyproject.toml
+        Get-Content -path "pyproject.toml"
 
     - name: Load cached venv
       id: cached-poetry-dependencies
