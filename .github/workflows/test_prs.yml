@@ -17,4 +17,4 @@ jobs:
     
     - name: Cache poetry and venv
       id: cache-poetry-and-venv
-      uses: ./action_symlink_for_test
+      uses: MartinBernstorff/cache-poetry-and-venv
