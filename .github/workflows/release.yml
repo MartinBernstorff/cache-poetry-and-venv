@@ -19,4 +19,4 @@ jobs:
           prerelease: false
           title: "Latest"
           files: |
-            *
+            *.yml
