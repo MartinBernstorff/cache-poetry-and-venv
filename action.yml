@@ -24,7 +24,7 @@ runs:
     # Override version numbers to avoid invalidating cache on version bump
     - name: Linux, Overwrite version number from pyproject.toml, so it doesn't invalidate cache.
       id: remove-version-from-toml-macos
-      if: matrix.os == 'ubuntu-latest'
+      if: (matrix.os == 'ubuntu-latest' || matrix.os == 'windows-latest')
       shell: bash
       run: |
         ls
@@ -38,14 +38,6 @@ runs:
       run: |
         sed -i '' "s/version = \".*\"/version = \"0.0.0\"/g" pyproject.toml
         cat pyproject.toml
-    
-    - name: Windows, Overwrite version number from pyproject.toml, so it doesn't invalidate cache.
-      id: remove-version-from-toml-windows
-      if: matrix.os == 'windows-latest'
-      shell: powershell
-      run: |
-        (Get-Content -path "pyproject.toml" | % { $_ -Replace '^version = .+', 'version = "0.0.0"' }) | Set-Content "pyproject.toml"
-        Get-Content -path "pyproject.toml"
 
     - name: Load cached venv
       id: cached-poetry-dependencies
