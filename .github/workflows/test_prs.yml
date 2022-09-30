@@ -14,4 +14,4 @@ jobs:
     steps:
     - name: Cache poetry and venv
       id: cache-poetry-and-venv
-      uses: MartinBernstorff/cache-poetry-and-venv@v0.3.0
+      uses: MartinBernstorff/cache-poetry-and-venv@latest
