@@ -24,4 +24,4 @@ jobs:
 
     ### Caching
     - name: Cache poetry and venv
-      uses: https://github.com/MartinBernstorff/cache-poetry-and-venv
+      uses: MartinBernstorff/cache-poetry-and-venv
