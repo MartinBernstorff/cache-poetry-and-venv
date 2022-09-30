@@ -27,6 +27,7 @@ runs:
       shell: powershell
       run: |
         (Get-Content pyproject.toml | Where { $_ -notmatch "^version" }) | Set-Content pyproject.toml
+        get-content pyproject.toml
 
     - name: Load cached venv
       id: cached-poetry-dependencies
