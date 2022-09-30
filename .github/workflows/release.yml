@@ -12,11 +12,11 @@ jobs:
 
     steps:
     # Checkout action is required for token to persist
-      - uses: CupOfTea696/gh-action-auto-release@v1.0.0
+      - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          title: "Release: $version"
-          tag: "v$semver"
-          draft: false
-          regex: "/^Release: #{semver}$/i"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Latest"
+          files: |
+            *
