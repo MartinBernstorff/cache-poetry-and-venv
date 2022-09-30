@@ -12,6 +12,9 @@ jobs:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
         
     steps:
+    - name: get dir contents
+      run: |
+        ls
     - name: Cache poetry and venv
       id: cache-poetry-and-venv
       uses: MartinBernstorff/cache-poetry-and-venv@latest
