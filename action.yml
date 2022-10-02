@@ -90,7 +90,7 @@ runs:
       uses: actions/cache@v2.1.6
       with:
         path: |
-          %APPDATA%\pypoetry
+          ~\AppData\pypoetry
         # Cache the complete venv dir for a given os, python version, pyproject.toml
         key: ${{ runner.os }}-python-${{ inputs.python-version }}-poetry-${{ inputs.poetry-version }}-toml-${{ hashFiles('pyproject.toml') }}-cache-${{ inputs.cache-version }}
     
