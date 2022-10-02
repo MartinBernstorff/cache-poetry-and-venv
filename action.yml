@@ -59,9 +59,15 @@ runs:
       with:
         path: |
           .venv
-          poetry.lock # Also log poetry.lock; if it changes, we want to invalidate the cache
+          poetry.lock 
+        # Also log poetry.lock; if it changes, we want to invalidate the cache
         # Cache the complete venv dir for a given os, python version, pyproject.toml
         key: ${{ runner.os }}-python-${{ inputs.python-version }}-poetry-${{ inputs.poetry-version }}-toml-${{ hashFiles('pyproject.toml') }}-cache-${{ inputs.cache-version }}-poetry-venv-${{ hashFiles('poetry.lock') }}
+
+    - name: Get contents of dir
+      shell: bash
+      run: |
+        ls -la
 
     - name: Load cached poetry install
       shell: bash
