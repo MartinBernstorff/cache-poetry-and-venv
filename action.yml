@@ -10,12 +10,12 @@ inputs:
     required: true
     default: '0.0.0'
   python-version:
-    description: "Python version, used for cache key. If you change this, automatically invalidates the cache."
+    description: "Python version, used for cache key. If you change this,  invalidates the cache."
     required: true
     default: '0.0.0'
 outputs:
   venv-cache-hit:
-    description: "Whether there was a cache hit on .venv"
+    description: "Whether there was a cache hit on .ven"
     value: ${{ steps.cached-poetry-dependencies.outputs.cache-hit }}
   poetry-cache-hit:
     description: "Whether there was a cache hit on the poetry installation"
@@ -81,18 +81,16 @@ runs:
       with:
         path: |
           ~/.local/
-        # Cache the complete venv dir for a given os, python version, pyproject.toml
         key: ${{ runner.os }}-python-${{ inputs.python-version }}-poetry-${{ inputs.poetry-version }}-toml-${{ hashFiles('pyproject.toml') }}-cache-${{ inputs.cache-version }}
 
-    - name: Windows, Load cached Poetry install (Poetry install location)
-      id: cached-poetry-windows
-      if: runner.os == 'Windows'
-      uses: actions/cache@v2.1.6
-      with:
-        path: |
-          ~\AppData\Roaming\Python\Scripts\bin
-        # Cache the complete venv dir for a given os, python version, pyproject.toml
-        key: ${{ runner.os }}-python-${{ inputs.python-version }}-poetry-${{ inputs.poetry-version }}-toml-${{ hashFiles('pyproject.toml') }}-cache-${{ inputs.cache-version }}
+    # - name: Windows, Load cached Poetry install (Poetry install location)
+    #   id: cached-poetry-windows
+    #   if: runner.os == 'Windows'
+    #   uses: actions/cache@v2.1.6
+    #   with:
+    #     path: |
+    #       ~\AppData\Roaming\Python\Scripts\bin
+    #     key: ${{ runner.os }}-python-${{ inputs.python-version }}-poetry-${{ inputs.poetry-version }}-toml-${{ hashFiles('pyproject.toml') }}-cache-${{ inputs.cache-version }}
     
     - name: Load cached venv
       shell: bash
